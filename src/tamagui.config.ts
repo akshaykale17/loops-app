@@ -4,7 +4,7 @@ const tokens = createTokens({
   color: {
     pinkDark: '#610c62',
     pinkLight: '#f17efc',
-  }
+  },
 })
 export default createTamagui({
   tokens,
@@ -24,9 +24,6 @@ export default createTamagui({
     light_pink: {
       background: tokens.color.pinkLight,
       color: tokens.color.pinkDark,
-
     },
-
   },
-
 })

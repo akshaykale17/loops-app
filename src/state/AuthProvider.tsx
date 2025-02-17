@@ -1,13 +1,18 @@
+import { get, loginPreflightCheck, postForm } from '@requests'
+import * as Burnt from 'burnt'
+import * as Linking from 'expo-linking'
+import { router, useSegments } from 'expo-router'
+import * as WebBrowser from 'expo-web-browser'
 import { type ReactNode, createContext, useEffect } from 'react'
 import { useContext, useState } from 'react'
-import { router, useSegments } from 'expo-router'
-import { loginPreflightCheck, postForm, get } from '@requests'
-import * as Linking from 'expo-linking'
+import { Alert, Platform } from 'react-native'
+import {
+  fetchSelfAccount,
+  handleLogin,
+  handleLoginTwoFactor,
+  verifyCredentials,
+} from 'src/requests'
 import { Storage } from './cache.js'
-import * as WebBrowser from 'expo-web-browser'
-import { Platform, Alert } from 'react-native'
-import { verifyCredentials, handleLogin, fetchSelfAccount, handleLoginTwoFactor } from 'src/requests'
-import * as Burnt from "burnt";
 
 type User = {
   server: string
@@ -28,7 +33,7 @@ function useProtectedRoute(user: User | null, setUser: any, setIsLoading: any) {
   useEffect(() => {
     const checkToken = async () => {
       try {
-        if(!Storage.contains('app.token')) {
+        if (!Storage.contains('app.token')) {
           setIsLoading(false)
           return
         }
@@ -45,7 +50,7 @@ function useProtectedRoute(user: User | null, setUser: any, setIsLoading: any) {
             Storage.set('user.username', userInfo.username)
           } else {
             setIsLoading(false)
-            return;
+            return
           }
         }
       } catch (error) {
@@ -90,72 +95,79 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (data) => {
     let validate = await handleLogin(data.email, data.password, data.build)
-    if(validate.chp) {
-      router.push({ pathname:'/twofactorcheckpoint', params: data})
-      return;
+    if (validate.chp) {
+      router.push({ pathname: '/twofactorcheckpoint', params: data })
+      return
     }
-    else if(validate.message) {
+    if (validate.message) {
       Burnt.alert({
-        title: "Error",
-        preset: "error",
-        haptic: "error",
+        title: 'Error',
+        preset: 'error',
+        haptic: 'error',
         message: validate.message,
-      });
-      return false;
-    } else if(validate.errors) {
-        Burnt.alert({
-          title: "Login Error",
-          preset: "error",
-          from: "top",
-          haptic: "error",
-          message: "The credentials are incorrect.",
-      });
-      return false;
-    } else if(validate.hasOwnProperty('auth_token')) {
-        Storage.set('app.token', validate.auth_token)
-        setUser({
-            server: 'loops.video',
-            token: validate.access_token,
-          })
-    } else {
-
+      })
+      return false
     }
-    return true;
+    if (validate.errors) {
+      Burnt.alert({
+        title: 'Login Error',
+        preset: 'error',
+        from: 'top',
+        haptic: 'error',
+        message: 'The credentials are incorrect.',
+      })
+      return false
+    }
+    if (validate.hasOwnProperty('auth_token')) {
+      Storage.set('app.token', validate.auth_token)
+      setUser({
+        server: 'loops.video',
+        token: validate.access_token,
+      })
+    } else {
+    }
+    return true
   }
 
   const loginTwoFactor = async (data) => {
-    let validate = await handleLoginTwoFactor(data.email, data.password, data.build, data.code)
-    if(validate.chp) {
+    let validate = await handleLoginTwoFactor(
+      data.email,
+      data.password,
+      data.build,
+      data.code
+    )
+    if (validate.chp) {
       router.push('/twofactorcheckpoint')
-      return;
+      return
     }
-    else if(validate.message) {
+    if (validate.message) {
       Burnt.alert({
-        title: "Error",
-        preset: "error",
-        haptic: "error",
+        title: 'Error',
+        preset: 'error',
+        haptic: 'error',
         message: validate.message,
-      });
-      return false;
-    } else if(validate.errors) {
-        Burnt.alert({
-          title: "Login Error",
-          preset: "error",
-          from: "top",
-          haptic: "error",
-          message: "The credentials are incorrect.",
-      });
-      return false;
-    } else if(validate.hasOwnProperty('auth_token')) {
-        Storage.set('app.token', validate.auth_token)
-        setUser({
-            server: 'loops.video',
-            token: validate.access_token,
-          })
-    } else {
-
+      })
+      return false
     }
-    return true;
+    if (validate.errors) {
+      Burnt.alert({
+        title: 'Login Error',
+        preset: 'error',
+        from: 'top',
+        haptic: 'error',
+        message: 'The credentials are incorrect.',
+      })
+      return false
+    }
+    if (validate.hasOwnProperty('auth_token')) {
+      Storage.set('app.token', validate.auth_token)
+      setUser({
+        server: 'loops.video',
+        token: validate.access_token,
+      })
+    } else {
+    }
+    return true
   }
 
   const logout = async () => {
