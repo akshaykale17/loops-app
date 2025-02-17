@@ -21,9 +21,12 @@ This is the mobile app source that uses the [Loops](https://loops.video) service
 
 ## Installation Steps
 
-1. Install React Native CLI globally:
+1. Install Node and necessary development tools:
 ```bash
-npm install -g react-native-cli
+# For macOS users (using Homebrew):
+brew install node watchman
+# Install JDK 17 if developing for Android
+brew install --cask zulu17
 ```
 
 2. Clone your loops app repository:
@@ -77,6 +80,11 @@ npx react-native run-android
   cd android
   ./gradlew clean
   cd ..
+  ```
+
+  - Metro bundler cache issues:
+  ```bash
+  npm start -- --reset-cache
   ```
 
 - For Android SDK issues, ensure your `ANDROID_HOME` environment variable is set correctly
