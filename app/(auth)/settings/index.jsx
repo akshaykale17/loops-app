@@ -8,12 +8,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { searchQuery } from 'src/requests'
 import { BUILD_VERSION, openBrowserAsync } from 'src/utils'
 import {
-  Avatar,
   Button,
-  Heading,
-  Input,
   ScrollView,
-  Separator,
   Text,
   View,
   XStack,
@@ -27,30 +23,8 @@ export default function SettingsScreen() {
   const links = [
     { path: 'account', url: false, name: 'Account', icon: 'person-outline', id: 1 },
     { path: 'bio', url: false, name: 'Bio', icon: 'person-circle-outline', id: 2 },
-    // { path: "camera", url: false, name: "Camera", icon: "camera-outline", id: 4 },
-    // { path: "federation", url: false, name: "Federation", icon: "planet-outline", id: 5 },
-    // { path: "notifications", url: false, name: "Notifications", icon: "notifications-circle-outline", id: 6 },
+    { path: 'app', url: false, name: 'App Settings', icon: 'settings-outline', id: 10 },
   ]
-
-  if (Platform.OS === 'ios') {
-    links.push({
-      path: 'app',
-      url: false,
-      name: 'App Settings',
-      icon: 'settings-outline',
-      id: 10,
-    })
-  }
-
-  if (Platform.OS === 'android') {
-    links.push({
-      path: 'android/updates',
-      url: false,
-      name: 'Check for updates',
-      icon: 'logo-android',
-      id: 10,
-    })
-  }
 
   const helpLinks = [
     {
@@ -60,8 +34,6 @@ export default function SettingsScreen() {
       icon: 'help-circle-outline',
       id: 7,
     },
-    // { path: "feedback", url: false, name: "Suggest Feature", icon: "color-wand-outline", id: 8 },
-    // { path: "feedback/bug", url: false, name: "Report Bug", icon: "bug-outline", id: 9 },
   ]
 
   const openWebLink = async (url) => {
