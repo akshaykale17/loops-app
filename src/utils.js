@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser'
 
-export const BUILD_VERSION = '11'
+export const BUILD_VERSION = '13'
 
 export const openBrowserAsync = async (url) => {
   await WebBrowser.openBrowserAsync(url, {
