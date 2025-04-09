@@ -13,10 +13,10 @@ import {
   useWindowDimensions,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { getNotifications, likeVideo, unlikeVideo } from 'src/requests'
-import { Separator, Text, View, XStack, YStack } from 'tamagui'
 import FeatherIcon from 'src/components/common/FeatherIcon'
+import { getNotifications, likeVideo, unlikeVideo } from 'src/requests'
 import { Storage } from 'src/state/cache'
+import { Separator, Text, View, XStack, YStack } from 'tamagui'
 
 export default function Screen() {
   const videoRef = useRef(null)

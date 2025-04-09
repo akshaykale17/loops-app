@@ -7,14 +7,7 @@ import { Alert, FlatList, Keyboard, Platform, Pressable, StyleSheet } from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { searchQuery } from 'src/requests'
 import { BUILD_VERSION, openBrowserAsync } from 'src/utils'
-import {
-  Button,
-  ScrollView,
-  Text,
-  View,
-  XStack,
-  YStack,
-} from 'tamagui'
+import { Button, ScrollView, Text, View, XStack, YStack } from 'tamagui'
 
 export default function SettingsScreen() {
   const { logout } = useAuth()
